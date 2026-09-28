@@ -9,86 +9,68 @@
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%;background:var(--void);color:var(--txt);font-family:'Palatino Linotype',Palatino,'Book Antiqua',Georgia,serif}
 #fx{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
-main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 18px 70px}
-h1{font-size:clamp(34px,7vw,64px);letter-spacing:.14em;margin:0 0 6px;font-weight:700;color:#dff8ec;text-shadow:0 0 18px rgba(45,255,156,.55),0 0 60px rgba(45,255,156,.25);animation:flick 5s infinite}
-@keyframes flick{0%,92%,100%{opacity:1}93%{opacity:.55}94%{opacity:1}96%{opacity:.7}}
+main{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:40px 18px 80px}
+h1{font-size:clamp(32px,7vw,60px);letter-spacing:.14em;margin:0 0 6px;font-weight:700;color:#dff8ec;text-shadow:0 0 18px rgba(45,255,156,.5)}
 .sub{color:var(--steel);margin:0 0 26px;font-style:italic;letter-spacing:.04em}
-.panel{background:linear-gradient(160deg,rgba(17,29,25,.92),rgba(8,14,12,.94));border:1px solid rgba(45,255,156,.28);border-radius:3px;padding:20px;margin-bottom:16px;box-shadow:0 0 30px rgba(18,168,101,.12),inset 0 0 40px rgba(0,0,0,.5);clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px))}
-#drop{border:1px dashed rgba(45,255,156,.55);padding:34px 16px;text-align:center;cursor:pointer;transition:.2s;background:rgba(45,255,156,.03)}
-#drop:hover,#drop.on{background:rgba(45,255,156,.12);box-shadow:0 0 30px rgba(45,255,156,.35)}
-#drop b{font-size:20px;letter-spacing:.06em}
-#drop small{display:block;color:var(--steel);margin-top:6px}
+.panel{background:rgba(10,18,15,.94);border:1px solid rgba(45,255,156,.28);border-radius:3px;padding:18px;margin-bottom:16px}
+.drop{border:1px dashed rgba(45,255,156,.55);padding:22px 14px;text-align:center;cursor:pointer;background:rgba(45,255,156,.03)}
+.drop:hover,.drop.on{background:rgba(45,255,156,.12)}
+.drop b{font-size:17px;letter-spacing:.05em}
+.drop small{display:block;color:var(--steel);margin-top:4px}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:640px){.row{grid-template-columns:1fr}}
-label{display:block;font-size:14px;color:var(--steel);margin:0 0 6px;letter-spacing:.05em}
-select,input[type=number]{width:100%;padding:11px 10px;background:#08110e;color:var(--txt);border:1px solid rgba(45,255,156,.35);border-radius:2px;font:inherit;font-size:15px}
-select:focus,input:focus,button:focus-visible,#drop:focus-visible{outline:2px solid var(--rune);outline-offset:2px}
+label{display:block;font-size:14px;color:var(--steel);margin:0 0 6px;letter-spacing:.04em}
+select,input[type=number]{width:100%;padding:10px;background:#08110e;color:var(--txt);border:1px solid rgba(45,255,156,.35);border-radius:2px;font:inherit;font-size:15px}
+select:focus,input:focus,button:focus-visible,.drop:focus-visible{outline:2px solid var(--rune);outline-offset:2px}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
 .st{border-left:2px solid var(--rune2);padding:4px 10px}
-.st span{display:block;font-size:26px;color:var(--rune);text-shadow:0 0 12px rgba(45,255,156,.5)}
+.st span{display:block;font-size:26px;color:var(--rune)}
 .st em{font-size:12.5px;color:var(--steel);font-style:normal}
-.bad span{color:var(--blood);text-shadow:0 0 12px rgba(255,77,77,.4)}
-button.go{width:100%;margin-top:6px;padding:15px;font:inherit;font-size:18px;font-weight:700;letter-spacing:.1em;color:#02120a;background:linear-gradient(90deg,var(--rune2),var(--rune));border:0;cursor:pointer;clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%);transition:.15s;box-shadow:0 0 24px rgba(45,255,156,.5)}
-button.go:hover:not(:disabled){filter:brightness(1.2);transform:translateY(-1px)}
-button.go:disabled{opacity:.35;cursor:not-allowed;filter:grayscale(.7)}
+.bad span{color:var(--blood)}
+button.go{width:100%;margin-top:6px;padding:15px;font:inherit;font-size:18px;font-weight:700;letter-spacing:.1em;color:#02120a;background:linear-gradient(90deg,var(--rune2),var(--rune));border:0;cursor:pointer}
+button.go:hover:not(:disabled){filter:brightness(1.15)}
+button.go:disabled{opacity:.35;cursor:not-allowed}
 button.mini{background:none;border:1px solid rgba(45,255,156,.4);color:var(--rune);font:inherit;font-size:13px;padding:4px 10px;cursor:pointer}
 button.mini:hover{background:rgba(45,255,156,.14)}
 button.mini.x{border-color:rgba(255,77,77,.5);color:var(--blood)}
+button.add{width:100%;padding:12px;margin-bottom:16px;font-size:15px;border-style:dashed}
 .list{display:flex;flex-direction:column;gap:6px;font-size:14px}
 .item{display:flex;align-items:center;gap:10px;padding:7px 10px;border-left:2px solid var(--rune2);background:rgba(45,255,156,.04)}
 .item .nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.item .meta{color:var(--steel);font-size:13px;white-space:nowrap}
+.item .meta,.meta{color:var(--steel);font-size:13px;white-space:nowrap}
+.bh{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.bh b{font-size:17px;color:var(--rune);letter-spacing:.06em}
+.bh .sp{flex:1}
 .tw{overflow-x:auto;max-height:220px;overflow-y:auto}
 table{border-collapse:collapse;width:100%;font-size:13px}
 th,td{padding:6px 9px;text-align:left;border-bottom:1px solid rgba(45,255,156,.12);white-space:nowrap;max-width:220px;overflow:hidden;text-overflow:ellipsis}
 th{color:var(--rune);position:sticky;top:0;background:#0a1410}
 #msg{margin-top:10px;font-size:14px;min-height:20px;color:var(--steel)}
 #msg.err{color:var(--blood)}
-#fps{position:fixed;right:10px;bottom:8px;z-index:2;font:12px monospace;color:var(--rune2);opacity:.8;pointer-events:none}
+#hud{position:fixed;right:10px;bottom:8px;z-index:2;display:flex;gap:8px;align-items:center;font:12px monospace;color:var(--rune2)}
+#hud button{background:rgba(4,7,10,.8);border:1px solid rgba(45,255,156,.4);color:var(--rune);font:12px monospace;padding:4px 8px;cursor:pointer}
 h3{margin:0 0 10px;font-size:16px;letter-spacing:.06em;font-weight:400;color:var(--steel)}
 .hide{display:none}
 </style>
 </head>
 <body>
 <canvas id="fx"></canvas>
-<div id="fps">-- fps</div>
+<div id="hud"><span id="fps"></span><button id="fxBtn" title="Change background effects level">Effects: Auto</button></div>
 <main>
   <h1>DOOM CERTIFICATE FORGE</h1>
-  <p class="sub">Drop one or many Zoom attendee reports. Get one merged WATI file, split under 2 MB. Click anywhere on the background to cast a rune.</p>
-
-  <div class="panel">
-    <div id="drop" tabindex="0" role="button" aria-label="Upload Zoom attendee report CSV files">
-      <b id="dropT">Drop Zoom attendee CSVs here, or click to choose</b>
-      <small id="dropS">Select several at once, or add more later. Files never leave your computer.</small>
-    </div>
-    <input id="file" type="file" accept=".csv,text/csv" multiple class="hide">
-    <div class="list" id="files" style="margin-top:12px"></div>
-  </div>
+  <p class="sub">Make a batch for each notes link, drop its Zoom reports inside, then download everything as one merged WATI file, split under 2 MB.</p>
 
   <div class="panel">
     <div class="row">
-      <div><label for="cert">Certificate link</label>
-        <select id="cert">
-          <option value="https://verify.certx.in/submit/c31c780d-7e1f-4e7f-8daa-72deb544c620">Main</option>
-          <option value="https://verify.certx.in/submit/d868adf8-0cd9-4bc5-9374-32dad7ebc090">Exotic</option>
-        </select></div>
-      <div><label for="notes">Notes link</label>
-        <select id="notes">
-          <option value="https://link.be10x.in/be10X-AI-Tools-Workshop-Notes">AI Tools Workshop (11th August)</option>
-          <option value="https://link.be10x.in/be10X-Student-Workshop-Notes">Students</option>
-          <option value="http://link.be10x.in/Notes-AI-For-Business-Owners">Business Owners</option>
-          <option value="https://link.be10x.in/AI-For-Educators-Notes">Educators</option>
-          <option value="https://link.be10x.in/Build-Side-Income-Using-AI-Notes">Build Side Income Using AI</option>
-          <option value="https://link.be10x.in/AI-for-Finance-Notes">Finance</option>
-          <option value="https://link.be10x.in/AI-for-Tech-Professionals-Notes">Tech Professionals</option>
-          <option value="https://link.be10x.in/Advance-AI-Tools-Claude-Notes">Unlocking Claude</option>
-        </select></div>
       <div><label for="min">Minimum minutes attended</label>
         <input id="min" type="number" min="1" value="30"></div>
       <div><label for="maxmb">Max size per file (MB)</label>
         <input id="maxmb" type="number" min="0.1" step="0.1" value="2"></div>
     </div>
   </div>
+
+  <div id="batches"></div>
+  <button class="mini add" id="addB">+ Add another batch (different notes link)</button>
 
   <div class="panel hide" id="res">
     <div class="stats" id="stats"></div>
@@ -105,11 +87,25 @@ h3{margin:0 0 10px;font-size:16px;letter-spacing:.06em;font-weight:400;color:var
 </main>
 
 <script>
-/* ---------- CSV logic ---------- */
+/* =================== DATA / LOGIC =================== */
 const $=id=>document.getElementById(id);
-let reports=[];      // {name,date,topic,n,people:[{t,ph}]}
-let merged=[];       // [{ph,date}]
-let parts=[];        // [{name,text,rows,bytes}]
+const CERTS=[
+ ['Main','https://verify.certx.in/submit/c31c780d-7e1f-4e7f-8daa-72deb544c620'],
+ ['Exotic','https://verify.certx.in/submit/d868adf8-0cd9-4bc5-9374-32dad7ebc090']];
+const NOTES=[
+ ['AI Tools Workshop (11th August)','https://link.be10x.in/be10X-AI-Tools-Workshop-Notes'],
+ ['Students','https://link.be10x.in/be10X-Student-Workshop-Notes'],
+ ['Business Owners','http://link.be10x.in/Notes-AI-For-Business-Owners'],
+ ['Educators','https://link.be10x.in/AI-For-Educators-Notes'],
+ ['Build Side Income Using AI','https://link.be10x.in/Build-Side-Income-Using-AI-Notes'],
+ ['Finance','https://link.be10x.in/AI-for-Finance-Notes'],
+ ['Tech Professionals','https://link.be10x.in/AI-for-Tech-Professionals-Notes'],
+ ['Unlocking Claude','https://link.be10x.in/Advance-AI-Tools-Claude-Notes']];
+const FAQ='https://link.be10x.in/AI-Tools-Workshop-Post-WS-FAQs';
+const HEAD=['Name','CountryCode','Phone','AllowBroadcast','AllowSMS','certlink','notes','datetime','brname','faqdoc','bonus'];
+
+let batches=[],uid=0,merged=[],parts=[];
+const newBatch=()=>({id:++uid,cert:CERTS[0][1],notes:NOTES[0][1],reports:[],ready:0});
 
 function parseCSV(t){
   const r=[];let row=[],f='',q=false;
@@ -136,23 +132,19 @@ function normPhone(p){
   else if(d.length==11&&d[0]=='0')d=d.slice(1);
   return d.length==10?d:'';
 }
-function ordinal(n){const s=['th','st','nd','rd'],v=n%100;return n+(s[(v-20)%10]||s[v]||s[0])}
+const ordinal=n=>{const s=['th','st','nd','rd'],v=n%100;return n+(s[(v-20)%10]||s[v]||s[0])};
 const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
 const fmtDate=m=>m?ordinal(+m[2])+' '+MONTHS[+m[1]-1]:'';
 
 function parseReport(name,text){
   const all=parseCSV(text);
   const hi=all.findIndex(r=>r[0]=='Attended'&&r.includes('First Name'));
-  if(hi<0)throw new Error(name+': not a Zoom attendee report (attendee table not found).');
+  if(hi<0)throw new Error(name+': not a Zoom attendee report.');
   const H=all[hi],ix=n=>H.indexOf(n);
   const iE=ix('Email'),iP=ix('Phone'),iT=ix('Time in Session (minutes)'),iN=ix('User Name (Original Name)'),iJ=ix('Join Time');
-  let date='',topic='';
+  let date='';
   const ti=all.findIndex(r=>r.includes('Actual Start Time'));
-  if(ti>=0){
-    const v=all[ti+1][all[ti].indexOf('Actual Start Time')]||'';
-    date=fmtDate(v.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/));
-    topic=all[ti+1][0]||'';
-  }
+  if(ti>=0)date=fmtDate(((all[ti+1]||[])[all[ti].indexOf('Actual Start Time')]||'').match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/));
   if(!date&&all[hi+1])date=fmtDate((all[hi+1][iJ]||'').match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/));
   if(!date)throw new Error(name+': could not read the workshop date.');
   const map=new Map();let n=0;
@@ -164,35 +156,33 @@ function parseReport(name,text){
     const ph=normPhone(r[iP]); if(ph)p.ph=ph;
     const t=parseFloat(r[iT]); if(!isNaN(t))p.t+=t;
   }
-  return {name,date,topic,n,people:[...map.values()]};
+  return {name,date,n,people:[...map.values()]};
 }
 
-const HEAD=['Name','CountryCode','Phone','AllowBroadcast','AllowSMS','certlink','notes','datetime','brname','faqdoc','bonus'];
 const esc=v=>/[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;
-function rowOf(m){
-  return ['there','91',m.ph,'TRUE','TRUE',$('cert').value,$('notes').value,m.date,'be10X',
-   'https://link.be10x.in/AI-Tools-Workshop-Post-WS-FAQs','special bonus worth Rs. 1799.'];
-}
+const rowOf=m=>['there','91',m.ph,'TRUE','TRUE',m.cert,m.notes,m.date,'be10X',FAQ,'special bonus worth Rs. 1799.'];
 const enc=new TextEncoder();
 const kb=b=>b>=1048576?(b/1048576).toFixed(2)+' MB':(b/1024).toFixed(0)+' KB';
-
-function msg(t,e){const m=$('msg');m.textContent=t;m.className=e?'err':''}
+const msg=(t,e)=>{const m=$('msg');m.textContent=t;m.className=e?'err':''};
 
 function recompute(){
-  const min=+$('min').value||30;
-  const seen=new Set();merged=[];
-  let people=0,short=0,nophone=0,dup=0;
-  for(const rp of reports){
-    for(const p of rp.people){
-      people++;
-      if(p.t<min){short++;continue}
-      if(!p.ph){nophone++;continue}
-      if(seen.has(p.ph)){dup++;continue}
-      seen.add(p.ph);merged.push({ph:p.ph,date:rp.date});
+  const min=+$('min').value||30,seen=new Set();merged=[];
+  let people=0,short=0,nophone=0,dup=0,reps=0;
+  for(const b of batches){
+    b.ready=0;
+    for(const rp of b.reports){
+      reps++;
+      for(const p of rp.people){
+        people++;
+        if(p.t<min){short++;continue}
+        if(!p.ph){nophone++;continue}
+        if(seen.has(p.ph)){dup++;continue}
+        seen.add(p.ph);b.ready++;
+        merged.push({ph:p.ph,date:rp.date,cert:b.cert,notes:b.notes});
+      }
     }
   }
-  // split by size
-  const limit=Math.floor((+$('maxmb').value||2)*1000*1000);   // decimal MB: safely below WATI's limit
+  const limit=Math.floor((+$('maxmb').value||2)*1e6);
   const head=HEAD.join(',')+'\r\n',hb=enc.encode(head).length;
   parts=[];let cur=[],bytes=hb;
   const flush=()=>{if(cur.length){parts.push({rows:cur.length,bytes,text:head+cur.join('')});cur=[];bytes=hb}};
@@ -203,29 +193,63 @@ function recompute(){
   }
   flush();
   parts.forEach((p,i)=>p.name=parts.length>1?`certificate_part${i+1}.csv`:'certificate.csv');
-  return {people,short,nophone,dup};
+  return {people,short,nophone,dup,reps};
 }
 
-function render(){
-  $('res').classList.toggle('hide',!reports.length);
-  $('outp').classList.toggle('hide',!reports.length);
-  const fl=$('files');fl.innerHTML='';
-  reports.forEach((rp,i)=>{
-    const d=document.createElement('div');d.className='item';
-    d.innerHTML=`<span class="nm" title="${rp.name}">${rp.name}</span><span class="meta">${rp.date} · ${rp.n} rows</span>`;
-    const b=document.createElement('button');b.className='mini x';b.textContent='Remove';
-    b.onclick=e=>{e.stopPropagation();reports.splice(i,1);render()};
-    d.appendChild(b);fl.appendChild(d);
+/* ---------- UI ---------- */
+function mkOpts(sel,list,val){
+  list.forEach(([l,v])=>{const o=document.createElement('option');o.value=v;o.textContent=l;sel.appendChild(o)});
+  sel.value=val;
+}
+function renderBatches(){
+  const box=$('batches');box.innerHTML='';
+  batches.forEach((b,bi)=>{
+    const el=document.createElement('div');el.className='panel';
+    el.innerHTML=`<div class="bh"><b>Batch ${bi+1}</b><span class="meta" data-bm></span><span class="sp"></span></div>
+     <div class="row"><div><label>Notes link</label><select data-n></select></div>
+     <div><label>Certificate link</label><select data-c></select></div></div>
+     <div class="drop" tabindex="0" role="button" style="margin-top:14px"><b>Drop Zoom reports for this notes link</b><small>Select several files at once, or add more later</small></div>
+     <input type="file" accept=".csv,text/csv" multiple class="hide">
+     <div class="list" data-f style="margin-top:12px"></div>`;
+    if(batches.length>1){
+      const rm=document.createElement('button');rm.className='mini x';rm.textContent='Remove batch';
+      rm.onclick=()=>{batches.splice(bi,1);renderBatches();update()};
+      el.querySelector('.bh').appendChild(rm);
+    }
+    const sn=el.querySelector('[data-n]'),sc=el.querySelector('[data-c]');
+    mkOpts(sn,NOTES,b.notes);mkOpts(sc,CERTS,b.cert);
+    sn.onchange=()=>{b.notes=sn.value;update()};
+    sc.onchange=()=>{b.cert=sc.value;update()};
+    const dz=el.querySelector('.drop'),inp=el.querySelector('input');
+    dz.onclick=()=>inp.click();
+    dz.onkeydown=e=>{if(e.key=='Enter'||e.key==' '){e.preventDefault();inp.click()}};
+    inp.onchange=e=>{load(b,e.target.files);e.target.value=''};
+    ['dragover','dragenter'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('on')}));
+    ['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('on')}));
+    dz.addEventListener('drop',e=>load(b,e.dataTransfer.files));
+    const fl=el.querySelector('[data-f]');
+    b.reports.forEach((rp,i)=>{
+      const d=document.createElement('div');d.className='item';
+      const nm=document.createElement('span');nm.className='nm';nm.textContent=rp.name;nm.title=rp.name;
+      const mt=document.createElement('span');mt.className='meta';mt.textContent=`${rp.date} · ${rp.n} rows`;
+      const x=document.createElement('button');x.className='mini x';x.textContent='Remove';
+      x.onclick=()=>{b.reports.splice(i,1);renderBatches();update()};
+      d.append(nm,mt,x);fl.appendChild(d);
+    });
+    el.dataset.bid=b.id;box.appendChild(el);
   });
-  if(reports.length>1){
-    const c=document.createElement('button');c.className='mini x';c.textContent='Remove all';
-    c.onclick=()=>{reports=[];render()};fl.appendChild(c);
-  }
-  if(!reports.length){$('dlAll').disabled=true;merged=[];parts=[];return}
-  const s=recompute(),min=+$('min').value||30;
+}
+function update(){
+  const s=recompute(),min=+$('min').value||30,has=s.reps>0;
+  $('res').classList.toggle('hide',!has);$('outp').classList.toggle('hide',!has);
+  document.querySelectorAll('#batches .panel').forEach(el=>{
+    const b=batches.find(x=>x.id==el.dataset.bid);
+    el.querySelector('[data-bm]').textContent=b.reports.length?`${b.reports.length} report${b.reports.length>1?'s':''} · ${b.ready} certificates`:'no reports yet';
+  });
+  if(!has){$('dlAll').disabled=true;msg('');return}
   $('stats').innerHTML=
    `<div class="st"><span>${merged.length}</span><em>Certificates ready</em></div>`+
-   `<div class="st"><span>${reports.length}</span><em>Reports merged</em></div>`+
+   `<div class="st"><span>${batches.filter(b=>b.reports.length).length}</span><em>Batches merged</em></div>`+
    `<div class="st"><span>${parts.length}</span><em>Output file${parts.length==1?'':'s'}</em></div>`+
    `<div class="st bad"><span>${s.short}</span><em>Under ${min} min</em></div>`+
    `<div class="st bad"><span>${s.nophone}</span><em>Blank / bad phone</em></div>`+
@@ -238,7 +262,7 @@ function render(){
     const d=document.createElement('div');d.className='item';
     d.innerHTML=`<span class="nm">${p.name}</span><span class="meta">${p.rows} rows · ${kb(p.bytes)}</span>`;
     const b=document.createElement('button');b.className='mini';b.textContent='Download';
-    b.onclick=e=>{e.stopPropagation();save(p)};d.appendChild(b);ol.appendChild(d);
+    b.onclick=()=>save(p);d.appendChild(b);ol.appendChild(d);
   });
   $('dlAll').textContent=parts.length>1?`DOWNLOAD ALL ${parts.length} FILES`:'DOWNLOAD WATI FILE';
   $('dlAll').disabled=!merged.length;
@@ -252,182 +276,217 @@ function save(p){
 }
 $('dlAll').onclick=()=>{
   parts.forEach((p,i)=>setTimeout(()=>save(p),i*400));
-  msg(`Downloading ${parts.length} file${parts.length==1?'':'s'} with ${merged.length} attendees. If your browser asks, allow multiple downloads.`);
+  msg(`Downloading ${parts.length} file${parts.length==1?'':'s'} with ${merged.length} attendees from ${batches.filter(b=>b.reports.length).length} batch(es). If your browser asks, allow multiple downloads.`);
 };
-
-function load(files){
+function load(b,files){
   const list=[...files];if(!list.length)return;
-  let pending=list.length,errs=[];
+  let pending=list.length;const errs=[];
   list.forEach(f=>{
     const rd=new FileReader();
     rd.onload=()=>{
       try{
         const rp=parseReport(f.name,decode(rd.result));
-        if(reports.some(x=>x.name==rp.name&&x.n==rp.n))errs.push(f.name+': already added.');
-        else reports.push(rp);
+        if(batches.some(x=>x.reports.some(r=>r.name==rp.name&&r.n==rp.n)))errs.push(f.name+': already added.');
+        else b.reports.push(rp);
       }catch(e){errs.push(e.message)}
-      if(--pending==0){render();if(errs.length)msg(errs.join(' '),true)}
+      if(--pending==0){renderBatches();update();if(errs.length)msg(errs.join(' '),true)}
     };
     rd.readAsArrayBuffer(f);
   });
 }
-$('drop').onclick=()=>$('file').click();
-$('drop').onkeydown=e=>{if(e.key=='Enter'||e.key==' '){e.preventDefault();$('file').click()}};
-$('file').onchange=e=>{load(e.target.files);e.target.value=''};
-['dragover','dragenter'].forEach(ev=>$('drop').addEventListener(ev,e=>{e.preventDefault();$('drop').classList.add('on')}));
-['dragleave','drop'].forEach(ev=>$('drop').addEventListener(ev,e=>{e.preventDefault();$('drop').classList.remove('on')}));
-$('drop').addEventListener('drop',e=>load(e.dataTransfer.files));
-['min','maxmb'].forEach(i=>$(i).oninput=render);$('cert').onchange=render;$('notes').onchange=render;
+$('addB').onclick=()=>{batches.push(newBatch());renderBatches();update()};
+['min','maxmb'].forEach(i=>$(i).oninput=update);
+batches.push(newBatch());renderBatches();update();
 
-/* ---------- Doomsday canvas engine (60fps, delta-time) ---------- */
-const cv=$('fx'),g=cv.getContext('2d');
-let W,H,DPR,embers=[],bolts=[],spells=[],sparks=[],t0=performance.now(),last=t0,fc=0,fa=0,shake=0;
+/* =================== LIGHTWEIGHT CANVAS ENGINE ===================
+   - Static art (background, mask, vignette, scanlines) pre-rendered once
+   - Rotating sigil = 3 cached sprites drawn with drawImage
+   - No shadowBlur, no per-frame gradients, no 'lighter' full-screen blends
+   - Auto quality: drops resolution/particles if frames run slow
+   - Pauses when the tab is hidden; "Effects" button: Auto / Lite / Off */
+const cv=$('fx'),g=cv.getContext('2d',{alpha:false});
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-function size(){
-  DPR=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;
-  cv.width=W*DPR;cv.height=H*DPR;g.setTransform(DPR,0,0,DPR,0,0);
-  embers=Array.from({length:Math.min(160,Math.floor(W*H/9000))},()=>ember(true));
+const weak=(navigator.hardwareConcurrency||8)<=4||(navigator.deviceMemory||8)<=4;
+let W,H,SC=1,level=weak?1:0,mode=reduce?'lite':'auto',running=false,rid=0;
+let base,overlay,sprA,sprB,sprC,SR,SD,embers=[],bolts=[],spells=[],sparks=[],shake=0;
+let last=0,fAcc=0,fN=0,fpsAcc=0,fpsN=0,skip=false,flip=false,warm=0,t0=performance.now();
+const SCALES=[1,.75,.5],EMB=[55,26,0];
+
+const mk=(w,h)=>{const c=document.createElement('canvas');c.width=Math.max(1,Math.ceil(w*SC));c.height=Math.max(1,Math.ceil(h*SC));const x=c.getContext('2d');x.scale(SC,SC);return[c,x]};
+function build(){
+  SC=SCALES[level];W=innerWidth;H=innerHeight;
+  cv.width=Math.ceil(W*SC);cv.height=Math.ceil(H*SC);
+  const cx=W/2,cy=H*.42;SR=Math.min(Math.min(W,H)*.36,340);SD=Math.ceil(SR*2+8);
+  // base: void + glow + faceplate
+  let x;[base,x]=mk(W,H);
+  x.fillStyle='#04070a';x.fillRect(0,0,W,H);
+  let gr=x.createRadialGradient(cx,cy,0,cx,cy,Math.max(W,H)*.7);
+  gr.addColorStop(0,'rgba(18,168,101,.30)');gr.addColorStop(.35,'rgba(8,60,40,.22)');gr.addColorStop(1,'rgba(4,7,10,0)');
+  x.fillStyle=gr;x.fillRect(0,0,W,H);
+  x.fillStyle='rgba(3,8,6,.7)';x.beginPath();
+  x.moveTo(cx-SR*.2,cy-SR*.28);x.lineTo(cx+SR*.2,cy-SR*.28);x.lineTo(cx+SR*.22,cy+SR*.05);x.lineTo(cx+SR*.08,cy+SR*.3);x.lineTo(cx-SR*.08,cy+SR*.3);x.lineTo(cx-SR*.22,cy+SR*.05);x.closePath();x.fill();
+  // overlay: scanlines + vignette (transparent, drawn last)
+  [overlay,x]=mk(W,H);
+  x.fillStyle='rgba(0,0,0,.16)';for(let y=0;y<H;y+=4)x.fillRect(0,y,W,1);
+  gr=x.createRadialGradient(cx,H/2,Math.min(W,H)*.3,cx,H/2,Math.max(W,H)*.8);
+  gr.addColorStop(0,'rgba(0,0,0,0)');gr.addColorStop(1,'rgba(0,0,0,.78)');
+  x.fillStyle=gr;x.fillRect(0,0,W,H);
+  // sigil sprites (drawn at SD x SD css px, centred)
+  const spr=(fn)=>{const [c,y]=(()=>{const c=document.createElement('canvas');c.width=Math.ceil(SD*SC);c.height=c.width;const y=c.getContext('2d');y.scale(SC,SC);return[c,y]})();y.translate(SD/2,SD/2);y.lineWidth=1.5;fn(y);return c};
+  sprA=spr(y=>{[0,2].forEach(k=>{y.strokeStyle=k?'rgba(45,255,156,.30)':'rgba(45,255,156,.22)';y.setLineDash([40,10,4,10]);y.beginPath();y.arc(0,0,SR*(1-k*.16),0,6.283);y.stroke()})});
+  sprB=spr(y=>{[1,3].forEach(k=>{y.strokeStyle=k>1?'rgba(45,255,156,.34)':'rgba(45,255,156,.26)';y.setLineDash([6,14]);y.beginPath();y.arc(0,0,SR*(1-k*.16),0,6.283);y.stroke()})});
+  sprC=spr(y=>{y.strokeStyle='rgba(45,255,156,.26)';y.beginPath();
+    for(let i=0;i<=6;i++){const a=i*Math.PI/3;y[i?'lineTo':'moveTo'](Math.cos(a)*SR*.62,Math.sin(a)*SR*.62)}
+    for(let i=0;i<6;i++){const a=i*Math.PI/3;y.moveTo(0,0);y.lineTo(Math.cos(a)*SR*.62,Math.sin(a)*SR*.62)}y.stroke()});
+  embers=Array.from({length:Math.min(EMB[level],Math.floor(W*H/14000))},()=>ember(true));
+  g.setTransform(SC,0,0,SC,0,0);
 }
-function ember(init){
-  return{x:Math.random()*W,y:init?Math.random()*H:H+10,r:Math.random()*2+.5,vy:20+Math.random()*60,
-    ph:Math.random()*6.28,dr:8+Math.random()*25,a:.3+Math.random()*.7};
-}
+function ember(init){return{x:Math.random()*W,y:init?Math.random()*H:H+10,s:Math.random()*2+1,vy:20+Math.random()*50,ph:Math.random()*6.28,dr:8+Math.random()*20,a:.35+Math.random()*.6}}
+
 function bolt(x0,tx){
-  const pts=[];let x=x0??Math.random()*W,y=-10;tx=tx??W*(.25+Math.random()*.5);
-  const yEnd=H*(.45+Math.random()*.4);
-  while(y<yEnd){pts.push([x,y]);x+=(tx-x)*.08+(Math.random()-.5)*70;y+=18+Math.random()*30}
+  const pts=[];let x=x0,y=-10;const yEnd=H*(.4+Math.random()*.4);
+  while(y<yEnd){pts.push(x,y);x+=(tx-x)*.08+(Math.random()-.5)*70;y+=22+Math.random()*30}
   bolts.push({pts,life:1});
 }
-
-/* rune glyphs: stem + angled branches, drawn from strokes (no font needed) */
-const GLYPHS=Array.from({length:18},()=>{
-  const s=[[0,-1,0,1]],n=1+Math.floor(Math.random()*3);
-  for(let i=0;i<n;i++){
-    const y=-.8+Math.random()*1.2,side=Math.random()<.5?-1:1;
-    s.push([0,y,side*(.5+Math.random()*.4),y+(Math.random()<.5?-.5:.5)]);
-    if(Math.random()<.35)s.push([side*.6,y-.4,side*.6,y+.4]);
-  }
+/* rune glyphs from strokes */
+const GLYPHS=Array.from({length:14},()=>{
+  const s=[0,-1,0,1],n=1+Math.floor(Math.random()*3);
+  for(let i=0;i<n;i++){const y=-.8+Math.random()*1.2,sd=Math.random()<.5?-1:1;s.push(0,y,sd*(.5+Math.random()*.4),y+(Math.random()<.5?-.5:.5))}
   return s;
 });
-function glyph(gl,x,y,sz,rot){
-  g.save();g.translate(x,y);g.rotate(rot);g.beginPath();
-  for(const [a,b,c,d] of gl){g.moveTo(a*sz,b*sz);g.lineTo(c*sz,d*sz)}
-  g.stroke();g.restore();
-}
 function cast(x,y){
-  if(spells.length>10)spells.shift();
-  const N=10+Math.floor(Math.random()*5);
-  spells.push({x,y,age:0,life:2.6,R:70+Math.random()*50,spin:(Math.random()<.5?-1:1)*(.6+Math.random()*.6),
-    n:N,gl:Array.from({length:N},()=>GLYPHS[Math.floor(Math.random()*GLYPHS.length)]),
-    tri:3+Math.floor(Math.random()*4)});
-  for(let i=0;i<46;i++){
-    const a=Math.random()*6.283,v=80+Math.random()*320;
-    sparks.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:.7+Math.random()*.9,age:0});
-  }
-  if(!reduce){bolt(x+(Math.random()-.5)*120,x);shake=.25}
+  if(mode=='off')return;
+  if(spells.length>=4)spells.shift();
+  const N=level==2?8:11;
+  spells.push({x,y,age:0,life:2.2,R:(level==2?70:90)+Math.random()*40,spin:(Math.random()<.5?-1:1)*(.6+Math.random()*.5),
+    n:N,gl:Array.from({length:N},()=>GLYPHS[Math.floor(Math.random()*GLYPHS.length)]),tri:3+Math.floor(Math.random()*3)});
+  const ns=level==0?30:level==1?18:10;
+  for(let i=0;i<ns;i++){const a=Math.random()*6.283,v=80+Math.random()*280;sparks.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:.6+Math.random()*.7,age:0})}
+  if(level==0&&!reduce){bolt(x+(Math.random()-.5)*100,x);shake=.18}
+  kick();
 }
 addEventListener('pointerdown',e=>{
-  if(e.target.closest('button,select,input,label,#drop,.tw,a'))return;
+  if(e.target.closest('button,select,input,label,.drop,.tw,a,.panel,.st'))return;
   cast(e.clientX,e.clientY);
 });
 const ease=p=>1-Math.pow(1-p,3);
-function drawSpell(s,T){
-  const p=s.age/s.life;
-  const grow=ease(Math.min(1,s.age/.7)),fade=p<.75?1:1-(p-.75)/.25,R=s.R*grow*2;
-  g.globalAlpha=Math.max(0,fade);g.lineWidth=1.6;g.strokeStyle='#2dff9c';g.shadowColor='#2dff9c';g.shadowBlur=14;
-  g.save();g.translate(s.x,s.y);
-  // shockwave
-  const sw=Math.min(1,s.age/.9);
-  if(sw<1){g.globalAlpha=(1-sw)*.9*fade;g.lineWidth=3;g.beginPath();g.arc(0,0,sw*R*2.2,0,6.283);g.stroke();g.lineWidth=1.6;g.globalAlpha=fade}
-  // rings
-  g.rotate(s.age*s.spin);
-  g.beginPath();g.arc(0,0,R,0,6.283);g.stroke();
-  g.beginPath();g.arc(0,0,R*.82,0,6.283);g.stroke();
-  for(let i=0;i<72;i++){const a=i/72*6.283,l=i%6==0?9:4;g.beginPath();g.moveTo(Math.cos(a)*R,Math.sin(a)*R);g.lineTo(Math.cos(a)*(R-l),Math.sin(a)*(R-l));g.stroke()}
-  // star polygon
-  g.rotate(-s.age*s.spin*2.2);
-  const k=s.tri*2+1;g.beginPath();
-  for(let i=0;i<=k;i++){const a=i*(Math.floor(k/2))/k*6.283;g[i?'lineTo':'moveTo'](Math.cos(a)*R*.8,Math.sin(a)*R*.8)}g.stroke();
-  g.rotate(s.age*s.spin*1.2);
-  // orbiting glyphs appear one by one
+function glow(strokeCol){ // cheap fake glow: wide faint stroke, then crisp stroke
+  g.lineWidth=6;g.globalAlpha*=.16;g.stroke();g.globalAlpha/=.16;g.lineWidth=1.6;g.stroke();
+}
+function drawSpell(s){
+  const p=s.age/s.life,grow=ease(Math.min(1,s.age/.6)),fade=p<.7?1:Math.max(0,1-(p-.7)/.3),R=s.R*grow*1.8;
+  g.save();g.translate(s.x,s.y);g.strokeStyle='#2dff9c';g.globalAlpha=fade;
+  const sw=Math.min(1,s.age/.8);
+  if(sw<1){g.globalAlpha=(1-sw)*.8*fade;g.lineWidth=3;g.beginPath();g.arc(0,0,sw*R*2,0,6.283);g.stroke()}
+  g.globalAlpha=fade;
+  g.save();g.rotate(s.age*s.spin);g.beginPath();
+  g.arc(0,0,R,0,6.283);g.moveTo(R*.82,0);g.arc(0,0,R*.82,0,6.283);
+  for(let i=0;i<36;i++){const a=i/36*6.283,l=i%3==0?9:4,c=Math.cos(a),d=Math.sin(a);g.moveTo(c*R,d*R);g.lineTo(c*(R-l),d*(R-l))}
+  glow();g.restore();
+  g.save();g.rotate(-s.age*s.spin*2);g.beginPath();
+  const k=s.tri*2+1,st=Math.floor(k/2);
+  for(let i=0;i<=k;i++){const a=i*st/k*6.283;g[i?'lineTo':'moveTo'](Math.cos(a)*R*.8,Math.sin(a)*R*.8)}
+  glow();g.restore();
+  g.save();g.rotate(s.age*s.spin*1.2);g.lineWidth=2;g.beginPath();
   for(let i=0;i<s.n;i++){
-    const show=Math.min(1,Math.max(0,(s.age-.25-i*.05)/.25));if(!show)continue;
-    const a=i/s.n*6.283;g.globalAlpha=fade*show;g.lineWidth=2;
-    glyph(s.gl[i],Math.cos(a)*R*.91,Math.sin(a)*R*.91,R*.07,a+1.5708);
+    if(s.age<.2+i*.05)continue;
+    const a=i/s.n*6.283,cx=Math.cos(a)*R*.91,cy=Math.sin(a)*R*.91,sz=R*.07,ca=Math.cos(a+1.5708),sa=Math.sin(a+1.5708),gl=s.gl;
+    for(let j=0;j<gl.length;j+=4){
+      const ax=gl[j]*sz,ay=gl[j+1]*sz,bx=gl[j+2]*sz,by=gl[j+3]*sz;
+      g.moveTo(cx+ax*ca-ay*sa,cy+ax*sa+ay*ca);g.lineTo(cx+bx*ca-by*sa,cy+bx*sa+by*ca);
+    }
   }
-  g.restore();
-  // inner core flash
-  const fl=Math.max(0,1-s.age/.5);
-  if(fl>0){const gr=g.createRadialGradient(s.x,s.y,0,s.x,s.y,R*.6);gr.addColorStop(0,`rgba(200,255,225,${fl})`);gr.addColorStop(1,'rgba(45,255,156,0)');g.globalAlpha=1;g.fillStyle=gr;g.beginPath();g.arc(s.x,s.y,R*.6,0,6.283);g.fill()}
-  g.globalAlpha=1;g.shadowBlur=0;
+  g.stroke();g.restore();
+  const fl=1-s.age/.4;
+  if(fl>0){g.globalAlpha=fl*.6;g.fillStyle='#c8ffe1';g.beginPath();g.arc(0,0,R*.25*(1+s.age*2),0,6.283);g.fill()}
+  g.restore();g.globalAlpha=1;
 }
 
 function frame(now){
-  const dt=Math.min(.05,(now-last)/1000);last=now;const T=(now-t0)/1000;
-  fc++;fa+=dt;if(fa>=.5){$('fps').textContent=Math.round(fc/fa)+' fps';fc=0;fa=0}
-  g.setTransform(DPR,0,0,DPR,0,0);
-  if(shake>0){shake=Math.max(0,shake-dt);const m=shake*24;g.translate((Math.random()-.5)*m,(Math.random()-.5)*m)}
-  g.globalCompositeOperation='source-over';
-  g.fillStyle='#04070a';g.fillRect(-30,-30,W+60,H+60);
-  const cx=W/2,cy=H*.42,pulse=.85+Math.sin(T*1.6)*.15;
-  let gr=g.createRadialGradient(cx,cy,0,cx,cy,Math.max(W,H)*.7);
-  gr.addColorStop(0,`rgba(18,168,101,${.28*pulse})`);gr.addColorStop(.35,'rgba(8,60,40,.22)');gr.addColorStop(1,'rgba(4,7,10,0)');
-  g.fillStyle=gr;g.fillRect(0,0,W,H);
-  // doom sigil
-  g.save();g.translate(cx,cy);const R=Math.min(W,H)*.36;
-  g.lineWidth=1.5;g.globalCompositeOperation='lighter';
-  for(let k=0;k<4;k++){
-    g.save();g.rotate(T*(.15+k*.09)*(k%2?-1:1));
-    g.strokeStyle=`rgba(45,255,156,${.10+.03*k})`;g.setLineDash(k%2?[6,14]:[40,10,4,10]);
-    g.beginPath();g.arc(0,0,R*(1-k*.16),0,6.283);g.stroke();g.restore();
+  if(!running)return;
+  rid=requestAnimationFrame(frame);
+  const raw=now-last;last=now;
+  // adaptive quality (auto mode only)
+  if(mode=='auto'&&raw<200){
+    fAcc+=raw;fN++;
+    if(fN>=60){
+      const avg=fAcc/fN;fAcc=0;fN=0;warm++;
+      if(warm>1){ // ignore first window (startup jank)
+        if(avg>22&&level<2){level++;build();warm=1}
+        else if(avg>42&&level==2)skip=true;
+      }
+    }
   }
-  g.setLineDash([]);
-  g.save();g.rotate(-T*.2);g.strokeStyle='rgba(45,255,156,.16)';g.beginPath();
-  for(let i=0;i<=6;i++){const a=i*Math.PI/3;g[i?'lineTo':'moveTo'](Math.cos(a)*R*.62,Math.sin(a)*R*.62)}g.stroke();
-  for(let i=0;i<6;i++){const a=i*Math.PI/3;g.beginPath();g.moveTo(0,0);g.lineTo(Math.cos(a)*R*.62,Math.sin(a)*R*.62);g.stroke()}
-  g.restore();
-  g.globalCompositeOperation='source-over';
-  g.fillStyle='rgba(6,12,10,.55)';g.beginPath();
-  g.moveTo(-R*.2,-R*.28);g.lineTo(R*.2,-R*.28);g.lineTo(R*.22,R*.05);g.lineTo(R*.08,R*.3);g.lineTo(-R*.08,R*.3);g.lineTo(-R*.22,R*.05);g.closePath();g.fill();
-  g.globalCompositeOperation='lighter';
+  if(skip){flip=!flip;if(flip)return}
+  const dt=Math.min(.05,raw/1000*(skip?2:1)),T=(now-t0)/1000;
+  fpsAcc+=raw;fpsN++;if(fpsAcc>=700){$('fps').textContent=Math.round(fpsN*1000/fpsAcc)+' fps';fpsAcc=0;fpsN=0}
+  g.setTransform(SC,0,0,SC,0,0);
+  if(shake>0){shake=Math.max(0,shake-dt);const m=shake*18;g.translate((Math.random()-.5)*m,(Math.random()-.5)*m)}
+  g.drawImage(base,0,0,W,H);
+  const cx=W/2,cy=H*.42;
+  if(level<2){
+    g.save();g.translate(cx,cy);
+    g.rotate(T*.15);g.drawImage(sprA,-SD/2,-SD/2,SD,SD);
+    g.rotate(-T*.15-T*.24);g.drawImage(sprB,-SD/2,-SD/2,SD,SD);
+    g.rotate(T*.24-T*.2);g.drawImage(sprC,-SD/2,-SD/2,SD,SD);
+    g.restore();
+  }else{
+    g.save();g.translate(cx,cy);g.rotate(T*.12);g.drawImage(sprA,-SD/2,-SD/2,SD,SD);g.restore();
+  }
+  // glowing eyes (two cheap fills instead of shadowBlur)
   const eye=.6+.4*Math.sin(T*3)*Math.sin(T*1.3);
-  g.shadowColor='#2dff9c';g.shadowBlur=22;g.fillStyle=`rgba(45,255,156,${eye})`;
-  for(const s of[-1,1]){g.beginPath();g.moveTo(s*R*.04,-R*.1);g.lineTo(s*R*.15,-R*.13);g.lineTo(s*R*.14,-R*.09);g.lineTo(s*R*.05,-R*.07);g.closePath();g.fill()}
-  g.shadowBlur=0;g.restore();
-  // ambient lightning
-  if(!reduce&&Math.random()<dt*.9)bolt();
-  g.globalCompositeOperation='lighter';
+  g.fillStyle='#2dff9c';
+  for(const s of[-1,1]){
+    g.beginPath();g.moveTo(cx+s*SR*.04,cy-SR*.1);g.lineTo(cx+s*SR*.15,cy-SR*.13);g.lineTo(cx+s*SR*.14,cy-SR*.09);g.lineTo(cx+s*SR*.05,cy-SR*.07);g.closePath();
+    g.globalAlpha=eye*.22;g.lineWidth=7;g.strokeStyle='#2dff9c';g.stroke();g.globalAlpha=eye;g.fill();
+  }
+  g.globalAlpha=1;
+  // ambient lightning (rare, only on full quality)
+  if(level==0&&!reduce&&Math.random()<dt*.45){const x=Math.random()*W;bolt(x,W*(.3+Math.random()*.4))}
   for(let i=bolts.length-1;i>=0;i--){
-    const b=bolts[i];b.life-=dt*2.6;if(b.life<=0){bolts.splice(i,1);continue}
-    g.strokeStyle=`rgba(120,255,190,${b.life*(Math.random()>.3?1:.4)})`;g.lineWidth=1+b.life*2;
-    g.shadowColor='#2dff9c';g.shadowBlur=16;g.beginPath();
-    b.pts.forEach((p,j)=>g[j?'lineTo':'moveTo'](p[0],p[1]));g.stroke();
+    const b=bolts[i];b.life-=dt*2.8;if(b.life<=0){bolts.splice(i,1);continue}
+    g.beginPath();for(let j=0;j<b.pts.length;j+=2)g[j?'lineTo':'moveTo'](b.pts[j],b.pts[j+1]);
+    g.strokeStyle='#78ffbe';g.globalAlpha=b.life*.2;g.lineWidth=6;g.stroke();
+    g.globalAlpha=b.life;g.lineWidth=1.5;g.stroke();
   }
-  g.shadowBlur=0;
+  g.globalAlpha=1;
   // embers
+  g.fillStyle='#50ffaa';
   for(const e of embers){
-    e.y-=e.vy*dt;e.x+=Math.sin(T+e.ph)*e.dr*dt;
-    if(e.y<-10)Object.assign(e,ember(false));
-    const f=Math.min(1,e.y/(H*.5));
-    g.fillStyle=`rgba(80,255,170,${e.a*(.3+.7*f)})`;
-    g.beginPath();g.arc(e.x,e.y,e.r,0,6.283);g.fill();
+    e.y-=e.vy*dt;e.x+=Math.sin(T+e.ph)*e.dr*dt;if(e.y<-10)Object.assign(e,ember(false));
+    g.globalAlpha=e.a*Math.min(1,e.y/(H*.5)+.3);g.fillRect(e.x,e.y,e.s,e.s);
   }
-  // spells + sparks (additive glow)
-  for(let i=spells.length-1;i>=0;i--){const s=spells[i];s.age+=dt;if(s.age>=s.life){spells.splice(i,1);continue}drawSpell(s,T)}
-  for(let i=sparks.length-1;i>=0;i--){
-    const s=sparks[i];s.age+=dt;if(s.age>=s.life){sparks.splice(i,1);continue}
-    const dr=Math.pow(.05,dt);s.vx*=dr;s.vy=s.vy*dr-30*dt;s.x+=s.vx*dt;s.y+=s.vy*dt;
-    g.fillStyle=`rgba(170,255,210,${1-s.age/s.life})`;g.fillRect(s.x-1.2,s.y-1.2,2.4,2.4);
+  g.globalAlpha=1;
+  for(let i=spells.length-1;i>=0;i--){const s=spells[i];s.age+=dt;if(s.age>=s.life){spells.splice(i,1);continue}drawSpell(s)}
+  if(sparks.length){
+    g.fillStyle='#aaffd2';
+    for(let i=sparks.length-1;i>=0;i--){
+      const s=sparks[i];s.age+=dt;if(s.age>=s.life){sparks.splice(i,1);continue}
+      const dr=Math.pow(.05,dt);s.vx*=dr;s.vy=s.vy*dr-30*dt;s.x+=s.vx*dt;s.y+=s.vy*dt;
+      g.globalAlpha=1-s.age/s.life;g.fillRect(s.x-1,s.y-1,2.2,2.2);
+    }
+    g.globalAlpha=1;
   }
-  // scanlines + vignette
-  g.globalCompositeOperation='source-over';
-  g.fillStyle='rgba(0,0,0,.18)';for(let y=(T*30)%4;y<H;y+=4)g.fillRect(0,y,W,1);
-  gr=g.createRadialGradient(cx,H/2,Math.min(W,H)*.3,cx,H/2,Math.max(W,H)*.8);
-  gr.addColorStop(0,'rgba(0,0,0,0)');gr.addColorStop(1,'rgba(0,0,0,.8)');
-  g.fillStyle=gr;g.fillRect(0,0,W,H);
-  requestAnimationFrame(frame);
+  g.setTransform(SC,0,0,SC,0,0);g.drawImage(overlay,0,0,W,H);
 }
-addEventListener('resize',size);size();requestAnimationFrame(frame);
+function staticFrame(){g.setTransform(SC,0,0,SC,0,0);g.drawImage(base,0,0,W,H);g.drawImage(overlay,0,0,W,H)}
+function start(){if(running||document.hidden||mode=='off')return;running=true;last=performance.now();rid=requestAnimationFrame(frame)}
+function stop(){running=false;cancelAnimationFrame(rid)}
+function kick(){if(!running)start()}
+
+document.addEventListener('visibilitychange',()=>document.hidden?stop():start());
+let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{build();if(mode=='off')staticFrame()},150)});
+
+const MODES=['auto','lite','off'],LBL={auto:'Effects: Auto',lite:'Effects: Lite',off:'Effects: Off'};
+function applyMode(){
+  $('fxBtn').textContent=LBL[mode];stop();skip=false;
+  if(mode=='lite')level=2;else if(mode=='auto')level=weak?1:0;
+  warm=0;fAcc=0;fN=0;bolts=[];spells=[];sparks=[];build();
+  if(mode=='off'){staticFrame();$('fps').textContent=''}else start();
+}
+$('fxBtn').onclick=()=>{mode=MODES[(MODES.indexOf(mode)+1)%3];applyMode()};
+if(reduce)level=2;
+applyMode();
 </script>
 </body>
 </html>
