@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doom Certificate Forge</title>
+<style>
+:root{--void:#04070a;--iron:#0c1512;--plate:#111d19;--rune:#2dff9c;--rune2:#12a865;--steel:#9fb3a9;--blood:#ff4d4d;--txt:#e6f2ec}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--void);color:var(--txt);font-family:'Palatino Linotype',Palatino,'Book Antiqua',Georgia,serif}
+#fx{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
+main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 18px 70px}
+h1{font-size:clamp(34px,7vw,64px);letter-spacing:.14em;margin:0 0 6px;font-weight:700;color:#dff8ec;text-shadow:0 0 18px rgba(45,255,156,.55),0 0 60px rgba(45,255,156,.25);animation:flick 5s infinite}
+@keyframes flick{0%,92%,100%{opacity:1}93%{opacity:.55}94%{opacity:1}96%{opacity:.7}}
+.sub{color:var(--steel);margin:0 0 26px;font-style:italic;letter-spacing:.04em}
+.panel{background:linear-gradient(160deg,rgba(17,29,25,.92),rgba(8,14,12,.94));border:1px solid rgba(45,255,156,.28);border-radius:3px;padding:20px;margin-bottom:16px;box-shadow:0 0 30px rgba(18,168,101,.12),inset 0 0 40px rgba(0,0,0,.5);clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px))}
+#drop{border:1px dashed rgba(45,255,156,.55);padding:34px 16px;text-align:center;cursor:pointer;transition:.2s;background:rgba(45,255,156,.03)}
+#drop:hover,#drop.on{background:rgba(45,255,156,.12);box-shadow:0 0 30px rgba(45,255,156,.35)}
+#drop b{font-size:20px;letter-spacing:.06em}
+#drop small{display:block;color:var(--steel);margin-top:6px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.row{grid-template-columns:1fr}}
+label{display:block;font-size:14px;color:var(--steel);margin:0 0 6px;letter-spacing:.05em}
+select,input[type=number]{width:100%;padding:11px 10px;background:#08110e;color:var(--txt);border:1px solid rgba(45,255,156,.35);border-radius:2px;font:inherit;font-size:15px}
+select:focus,input:focus,button:focus-visible,#drop:focus-visible{outline:2px solid var(--rune);outline-offset:2px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:4px}
+.st{border-left:2px solid var(--rune2);padding:4px 10px}
+.st span{display:block;font-size:26px;color:var(--rune);text-shadow:0 0 12px rgba(45,255,156,.5)}
+.st em{font-size:12.5px;color:var(--steel);font-style:normal}
+.bad span{color:var(--blood);text-shadow:0 0 12px rgba(255,77,77,.4)}
+button.go{width:100%;margin-top:14px;padding:15px;font:inherit;font-size:18px;font-weight:700;letter-spacing:.1em;color:#02120a;background:linear-gradient(90deg,var(--rune2),var(--rune));border:0;cursor:pointer;clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%);transition:.15s;box-shadow:0 0 24px rgba(45,255,156,.5)}
+button.go:hover:not(:disabled){filter:brightness(1.2);transform:translateY(-1px)}
+button.go:disabled{opacity:.35;cursor:not-allowed;filter:grayscale(.7)}
+.tw{overflow-x:auto;max-height:240px;overflow-y:auto}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:6px 9px;text-align:left;border-bottom:1px solid rgba(45,255,156,.12);white-space:nowrap;max-width:220px;overflow:hidden;text-overflow:ellipsis}
+th{color:var(--rune);position:sticky;top:0;background:#0a1410}
+#msg{margin-top:10px;font-size:14px;min-height:20px;color:var(--steel)}
+#msg.err{color:var(--blood)}
+#fps{position:fixed;right:10px;bottom:8px;z-index:2;font:12px monospace;color:var(--rune2);opacity:.8}
+.hide{display:none}
+</style>
+</head>
+<body>
+<canvas id="fx"></canvas>
+<div id="fps">-- fps</div>
+<main>
+  <h1>DOOM CERTIFICATE FORGE</h1>
+  <p class="sub">Drop the Zoom attendee report. Get the WATI certificate file. Everything runs in your browser.</p>
+
+  <div class="panel">
+    <div id="drop" tabindex="0" role="button" aria-label="Upload Zoom attendee report CSV">
+      <b id="dropT">Drop the Zoom attendee CSV here, or click to choose</b>
+      <small id="dropS">The file never leaves your computer</small>
+    </div>
+    <input id="file" type="file" accept=".csv,text/csv" class="hide">
+  </div>
+
+  <div class="panel">
+    <div class="row">
+      <div><label for="cert">Certificate link</label>
+        <select id="cert">
+          <option value="https://verify.certx.in/submit/c31c780d-7e1f-4e7f-8daa-72deb544c620">Main</option>
+          <option value="https://verify.certx.in/submit/d868adf8-0cd9-4bc5-9374-32dad7ebc090">Exotic</option>
+        </select></div>
+      <div><label for="notes">Notes link</label>
+        <select id="notes">
+          <option value="https://link.be10x.in/be10X-AI-Tools-Workshop-Notes">AI Tools Workshop (11th August)</option>
+          <option value="https://link.be10x.in/be10X-Student-Workshop-Notes">Students</option>
+          <option value="http://link.be10x.in/Notes-AI-For-Business-Owners">Business Owners</option>
+          <option value="https://link.be10x.in/AI-For-Educators-Notes">Educators</option>
+          <option value="https://link.be10x.in/Build-Side-Income-Using-AI-Notes">Build Side Income Using AI</option>
+          <option value="https://link.be10x.in/AI-for-Finance-Notes">Finance</option>
+          <option value="https://link.be10x.in/AI-for-Tech-Professionals-Notes">Tech Professionals</option>
+          <option value="https://link.be10x.in/Advance-AI-Tools-Claude-Notes">Unlocking Claude</option>
+        </select></div>
+      <div><label for="min">Minimum minutes attended</label>
+        <input id="min" type="number" min="1" value="30"></div>
+      <div><label for="date">Workshop date (read from the report)</label>
+        <input id="date" type="text" readonly placeholder="Upload a file to detect"></div>
+    </div>
+  </div>
+
+  <div class="panel hide" id="res">
+    <div class="stats" id="stats"></div>
+    <div class="tw" style="margin-top:14px"><table id="tbl"></table></div>
+  </div>
+
+  <button class="go" id="dl" disabled>DOWNLOAD WATI FILE</button>
+  <div id="msg"></div>
+</main>
+
+<script>
+/* ---------- CSV logic ---------- */
+const $=id=>document.getElementById(id);
+let rows=[],topic='',dateStr='',out=[];
+
+function parseCSV(t){
+  const r=[];let row=[],f='',q=false;
+  for(let i=0;i<t.length;i++){
+    const c=t[i];
+    if(q){ if(c=='"'){ if(t[i+1]=='"'){f+='"';i++} else q=false } else f+=c }
+    else if(c=='"') q=true;
+    else if(c==','){row.push(f);f=''}
+    else if(c=='\n'||c=='\r'){ if(c=='\r'&&t[i+1]=='\n')i++; row.push(f);f='';r.push(row);row=[] }
+    else f+=c;
+  }
+  if(f!==''||row.length){row.push(f);r.push(row)}
+  return r;
+}
+function decode(buf){
+  const b=new Uint8Array(buf);
+  if(b[0]==0xFF&&b[1]==0xFE) return new TextDecoder('utf-16le').decode(buf);
+  if(b[0]==0xFE&&b[1]==0xFF) return new TextDecoder('utf-16be').decode(buf);
+  return new TextDecoder('utf-8').decode(buf).replace(/^\uFEFF/,'');
+}
+function normPhone(p){
+  let d=String(p||'').replace(/\D/g,'');
+  if(d.length==12&&d.startsWith('91'))d=d.slice(2);
+  else if(d.length==11&&d[0]=='0')d=d.slice(1);
+  return d.length==10?d:'';
+}
+function ordinal(n){const s=['th','st','nd','rd'],v=n%100;return n+(s[(v-20)%10]||s[v]||s[0])}
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function build(){
+  const all=parseCSV(rows.raw);
+  const hi=all.findIndex(r=>r[0]=='Attended'&&r.includes('First Name'));
+  if(hi<0)throw new Error('This does not look like a Zoom attendee report (attendee table not found).');
+  const H=all[hi],ix=n=>H.indexOf(n);
+  const iE=ix('Email'),iP=ix('Phone'),iT=ix('Time in Session (minutes)'),iN=ix('User Name (Original Name)');
+  // date from "Actual Start Time" (topic table)
+  const ti=all.findIndex(r=>r.includes('Actual Start Time'));
+  if(ti>=0){
+    const v=all[ti+1][all[ti].indexOf('Actual Start Time')]||'';
+    const m=v.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+    if(m){dateStr=ordinal(+m[2])+' '+MONTHS[+m[1]-1]}
+    topic=all[ti+1][0]||'';
+  }
+  if(!dateStr){
+    const j=all[hi+1]&&all[hi+1][ix('Join Time')]||'';const m=j.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+    if(m)dateStr=ordinal(+m[2])+' '+MONTHS[+m[1]-1];
+  }
+  $('date').value=dateStr||'Not found';
+  const people=new Map();let n=0;
+  for(let k=hi+1;k<all.length;k++){
+    const r=all[k]; if(r.length<8||r[0]=='Other Attended')break;
+    n++;
+    const key=(r[iE]||'').trim().toLowerCase()||(r[iN]||'').trim().toLowerCase()||('row'+k);
+    let p=people.get(key); if(!p){p={t:0,ph:'',rawPh:''};people.set(key,p)}
+    const ph=normPhone(r[iP]); if(ph)p.ph=ph; else if((r[iP]||'').trim())p.rawPh=r[iP];
+    const t=parseFloat(r[iT]); if(!isNaN(t))p.t+=t;
+  }
+  const min=+$('min').value||30;
+  let short=0,nophone=0,dup=0;const seen=new Set();out=[];
+  for(const p of people.values()){
+    if(p.t<min){short++;continue}
+    if(!p.ph){nophone++;continue}
+    if(seen.has(p.ph)){dup++;continue}
+    seen.add(p.ph);out.push(p.ph);
+  }
+  return {n,people:people.size,short,nophone,dup,ok:out.length};
+}
+const HEAD=['Name','CountryCode','Phone','AllowBroadcast','AllowSMS','certlink','notes','datetime','brname','faqdoc','bonus'];
+function line(ph){
+  return ['there','91',ph,'TRUE','TRUE',$('cert').value,$('notes').value,dateStr,'be10X',
+   'https://link.be10x.in/AI-Tools-Workshop-Post-WS-FAQs','special bonus worth Rs. 1799.'];
+}
+const esc=v=>/[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;
+function refresh(){
+  if(!rows.raw)return;
+  try{
+    const s=build();
+    $('res').classList.remove('hide');
+    $('stats').innerHTML=
+     `<div class="st"><span>${s.ok}</span><em>Certificates ready</em></div>`+
+     `<div class="st"><span>${s.people}</span><em>Unique attendees</em></div>`+
+     `<div class="st bad"><span>${s.short}</span><em>Under ${+$('min').value||30} min</em></div>`+
+     `<div class="st bad"><span>${s.nophone}</span><em>Blank / bad phone</em></div>`+
+     `<div class="st bad"><span>${s.dup}</span><em>Duplicate phone</em></div>`;
+    const prev=out.slice(0,8).map(p=>line(p));
+    $('tbl').innerHTML='<tr>'+HEAD.map(h=>`<th>${h}</th>`).join('')+'</tr>'+
+      prev.map(r=>'<tr>'+r.map(c=>`<td title="${c}">${c}</td>`).join('')+'</tr>').join('');
+    $('dl').disabled=!out.length||!dateStr;
+    msg(dateStr?`Report parsed: ${s.n} rows, ${topic}`:'Could not read the workshop date from this report.',!dateStr);
+  }catch(e){$('dl').disabled=true;msg(e.message,true)}
+}
+function msg(t,e){const m=$('msg');m.textContent=t;m.className=e?'err':''}
+function load(f){
+  if(!f)return;
+  const rd=new FileReader();
+  rd.onload=()=>{rows.raw=decode(rd.result);$('dropT').textContent=f.name;$('dropS').textContent='Loaded. Change a dropdown any time and download again.';refresh()};
+  rd.readAsArrayBuffer(f);
+}
+$('drop').onclick=()=>$('file').click();
+$('drop').onkeydown=e=>{if(e.key=='Enter'||e.key==' '){e.preventDefault();$('file').click()}};
+$('file').onchange=e=>load(e.target.files[0]);
+['dragover','dragenter'].forEach(ev=>$('drop').addEventListener(ev,e=>{e.preventDefault();$('drop').classList.add('on')}));
+['dragleave','drop'].forEach(ev=>$('drop').addEventListener(ev,e=>{e.preventDefault();$('drop').classList.remove('on')}));
+$('drop').addEventListener('drop',e=>load(e.dataTransfer.files[0]));
+$('min').oninput=refresh;$('cert').onchange=refresh;$('notes').onchange=refresh;
+$('dl').onclick=()=>{
+  const csv=[HEAD,...out.map(line)].map(r=>r.map(esc).join(',')).join('\r\n')+'\r\n';
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+  a.download='certificate.csv';document.body.appendChild(a);a.click();a.remove();
+  msg(`Downloaded certificate.csv with ${out.length} attendees.`);
+};
+
+/* ---------- Doomsday canvas engine (60fps, delta-time) ---------- */
+const cv=$('fx'),g=cv.getContext('2d');
+let W,H,DPR,embers=[],bolts=[],t0=performance.now(),last=t0,fc=0,fa=0;
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function size(){
+  DPR=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;
+  cv.width=W*DPR;cv.height=H*DPR;g.setTransform(DPR,0,0,DPR,0,0);
+  const N=Math.min(160,Math.floor(W*H/9000));
+  embers=Array.from({length:N},()=>ember(true));
+}
+function ember(init){
+  return{x:Math.random()*W,y:init?Math.random()*H:H+10,r:Math.random()*2+.5,vy:20+Math.random()*60,
+    ph:Math.random()*6.28,dr:8+Math.random()*25,a:.3+Math.random()*.7};
+}
+function bolt(){
+  // jagged doom-lightning from top toward centre-ish
+  const pts=[];let x=Math.random()*W,y=-10;const tx=W*(.25+Math.random()*.5);
+  while(y<H*(.45+Math.random()*.4)){pts.push([x,y]);x+=(tx-x)*.08+(Math.random()-.5)*70;y+=18+Math.random()*30}
+  bolts.push({pts,life:1});
+}
+function frame(now){
+  const dt=Math.min(.05,(now-last)/1000);last=now;const T=(now-t0)/1000;
+  fc++;fa+=dt;if(fa>=.5){$('fps').textContent=Math.round(fc/fa)+' fps';fc=0;fa=0}
+  // void background with emerald core glow
+  g.globalCompositeOperation='source-over';
+  g.fillStyle='#04070a';g.fillRect(0,0,W,H);
+  const cx=W/2,cy=H*.42,pulse=.85+Math.sin(T*1.6)*.15;
+  let gr=g.createRadialGradient(cx,cy,0,cx,cy,Math.max(W,H)*.7);
+  gr.addColorStop(0,`rgba(18,168,101,${.28*pulse})`);gr.addColorStop(.35,'rgba(8,60,40,.22)');gr.addColorStop(1,'rgba(4,7,10,0)');
+  g.fillStyle=gr;g.fillRect(0,0,W,H);
+  // rotating doom sigil: rings, hex, spokes
+  g.save();g.translate(cx,cy);const R=Math.min(W,H)*.36;
+  g.lineWidth=1.5;g.globalCompositeOperation='lighter';
+  for(let k=0;k<4;k++){
+    g.save();g.rotate(T*(.15+k*.09)*(k%2?-1:1));
+    g.strokeStyle=`rgba(45,255,156,${.10+.03*k})`;g.setLineDash(k%2?[6,14]:[40,10,4,10]);
+    g.beginPath();g.arc(0,0,R*(1-k*.16),0,6.283);g.stroke();g.restore();
+  }
+  g.setLineDash([]);
+  g.save();g.rotate(-T*.2);g.strokeStyle='rgba(45,255,156,.16)';g.beginPath();
+  for(let i=0;i<=6;i++){const a=i*Math.PI/3;g[i?'lineTo':'moveTo'](Math.cos(a)*R*.62,Math.sin(a)*R*.62)}g.stroke();
+  for(let i=0;i<6;i++){const a=i*Math.PI/3;g.beginPath();g.moveTo(0,0);g.lineTo(Math.cos(a)*R*.62,Math.sin(a)*R*.62);g.stroke()}
+  g.restore();
+  // faceplate silhouette (Doom mask): slit eyes glow
+  g.globalCompositeOperation='source-over';
+  g.fillStyle='rgba(6,12,10,.55)';g.beginPath();
+  g.moveTo(-R*.2,-R*.28);g.lineTo(R*.2,-R*.28);g.lineTo(R*.22,R*.05);g.lineTo(R*.08,R*.3);g.lineTo(-R*.08,R*.3);g.lineTo(-R*.22,R*.05);g.closePath();g.fill();
+  g.globalCompositeOperation='lighter';
+  const eye=.6+.4*Math.sin(T*3)*Math.sin(T*1.3);
+  g.shadowColor='#2dff9c';g.shadowBlur=22;g.fillStyle=`rgba(45,255,156,${eye})`;
+  for(const s of[-1,1]){g.beginPath();g.moveTo(s*R*.04,-R*.1);g.lineTo(s*R*.15,-R*.13);g.lineTo(s*R*.14,-R*.09);g.lineTo(s*R*.05,-R*.07);g.closePath();g.fill()}
+  g.shadowBlur=0;g.restore();
+  // lightning
+  if(!reduce&&Math.random()<dt*.9)bolt();
+  g.globalCompositeOperation='lighter';
+  for(let i=bolts.length-1;i>=0;i--){
+    const b=bolts[i];b.life-=dt*2.6;if(b.life<=0){bolts.splice(i,1);continue}
+    g.strokeStyle=`rgba(120,255,190,${b.life*(Math.random()>.3?1:.4)})`;g.lineWidth=1+b.life*2;
+    g.shadowColor='#2dff9c';g.shadowBlur=16;g.beginPath();
+    b.pts.forEach((p,j)=>g[j?'lineTo':'moveTo'](p[0],p[1]));g.stroke();
+  }
+  g.shadowBlur=0;
+  // rising embers / ash
+  for(const e of embers){
+    e.y-=e.vy*dt;e.x+=Math.sin(T+e.ph)*e.dr*dt;
+    if(e.y<-10){Object.assign(e,ember(false))}
+    const f=Math.min(1,e.y/(H*.5));
+    g.fillStyle=`rgba(80,255,170,${e.a*(.3+.7*f)})`;
+    g.beginPath();g.arc(e.x,e.y,e.r,0,6.283);g.fill();
+  }
+  // scanlines + vignette
+  g.globalCompositeOperation='source-over';
+  g.fillStyle='rgba(0,0,0,.18)';for(let y=(T*30)%4;y<H;y+=4)g.fillRect(0,y,W,1);
+  gr=g.createRadialGradient(cx,H/2,Math.min(W,H)*.3,cx,H/2,Math.max(W,H)*.8);
+  gr.addColorStop(0,'rgba(0,0,0,0)');gr.addColorStop(1,'rgba(0,0,0,.8)');
+  g.fillStyle=gr;g.fillRect(0,0,W,H);
+  requestAnimationFrame(frame);
+}
+addEventListener('resize',size);size();requestAnimationFrame(frame);
+</script>
+</body>
+</html>
