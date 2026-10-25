@@ -103,11 +103,14 @@ const NOTES=[
  ['AI Tools & Side Income (18 October)','https://link.be10x.in/AI-Tools-Claude-Side-Income-Notes'],
  ['Finance','https://link.be10x.in/AI-for-Finance-Notes'],
  ['Tech Professionals','https://link.be10x.in/AI-for-Tech-Professionals-Notes'],
- ['Unlocking Claude','https://link.be10x.in/Advance-AI-Tools-Claude-Notes']];
+ ['Unlocking Claude','https://link.be10x.in/Advance-AI-Tools-Claude-Notes'],
+ ['No Notes','']];
 const FAQ='https://link.be10x.in/AI-Tools-Workshop-Post-WS-FAQs';
 const HEAD=['Name','CountryCode','Phone','AllowBroadcast','AllowSMS','certlink','notes','datetime','brname','faqdoc','bonus'];
 
-let batches=[],uid=0,merged=[],parts=[];
+let batches=[],uid=0,merged=[],parts=[],dropNotes=false;
+const NOTES_IDX=HEAD.indexOf('notes');
+const curHead=()=>dropNotes?HEAD.filter((_,i)=>i!=NOTES_IDX):HEAD;
 const newBatch=()=>({id:++uid,cert:CERTS[0][1],notes:NOTES[0][1],reports:[],ready:0});
 
 function parseCSV(t){
@@ -163,13 +166,15 @@ function parseReport(name,text){
 }
 
 const esc=v=>/[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;
-const rowOf=m=>['there','91',m.ph,'TRUE','TRUE',m.cert,m.notes,m.date,'be10X',FAQ,'special bonus worth Rs. 1799.'];
+const rowOf=m=>{const r=['there','91',m.ph,'TRUE','TRUE',m.cert,m.notes,m.date,'be10X',FAQ,'special bonus worth Rs. 1799.'];if(dropNotes)r.splice(NOTES_IDX,1);return r};
 const enc=new TextEncoder();
 const kb=b=>b>=1048576?(b/1048576).toFixed(2)+' MB':(b/1024).toFixed(0)+' KB';
 const msg=(t,e)=>{const m=$('msg');m.textContent=t;m.className=e?'err':''};
 
 function recompute(){
   const min=+$('min').value||30,seen=new Set();merged=[];
+  const active=batches.filter(b=>b.reports.length);
+  dropNotes=active.length>0&&active.every(b=>b.notes==='');
   let people=0,short=0,nophone=0,dup=0,reps=0;
   for(const b of batches){
     b.ready=0;
@@ -186,7 +191,7 @@ function recompute(){
     }
   }
   const limit=Math.floor((+$('maxmb').value||2)*1e6);
-  const head=HEAD.join(',')+'\r\n',hb=enc.encode(head).length;
+  const head=curHead().join(',')+'\r\n',hb=enc.encode(head).length;
   parts=[];let cur=[],bytes=hb;
   const flush=()=>{if(cur.length){parts.push({rows:cur.length,bytes,text:head+cur.join('')});cur=[];bytes=hb}};
   for(const m of merged){
@@ -257,7 +262,7 @@ function update(){
    `<div class="st bad"><span>${s.short}</span><em>Under ${min} min</em></div>`+
    `<div class="st bad"><span>${s.nophone}</span><em>Blank / bad phone</em></div>`+
    `<div class="st bad"><span>${s.dup}</span><em>Duplicate phone</em></div>`;
-  $('tbl').innerHTML='<tr>'+HEAD.map(h=>`<th>${h}</th>`).join('')+'</tr>'+
+  $('tbl').innerHTML='<tr>'+curHead().map(h=>`<th>${h}</th>`).join('')+'</tr>'+
     merged.slice(0,8).map(m=>'<tr>'+rowOf(m).map(c=>`<td title="${c}">${c}</td>`).join('')+'</tr>').join('');
   $('outT').textContent=parts.length>1?`Output files (split to stay under ${$('maxmb').value} MB)`:'Output file';
   const ol=$('outL');ol.innerHTML='';
