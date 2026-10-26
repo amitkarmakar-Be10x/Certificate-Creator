@@ -101,6 +101,7 @@ const NOTES=[
  ['Build Side Income Using AI (6th September)','https://link.be10x.in/Build-Side-Income-Using-AI-Notes'],
  ['Build Side Income Using AI (1st October)','https://link.be10x.in/be10X-AI-Side-Income-Notes'],
  ['AI Tools & Side Income (18 October)','https://link.be10x.in/AI-Tools-Claude-Side-Income-Notes'],
+ ['AI Tools & Side Income (22 October)','https://link.be10x.in/be10X-AI-Tools-Claude-Side-Income-Notes'],
  ['Finance','https://link.be10x.in/AI-for-Finance-Notes'],
  ['Tech Professionals','https://link.be10x.in/AI-for-Tech-Professionals-Notes'],
  ['Unlocking Claude','https://link.be10x.in/Advance-AI-Tools-Claude-Notes'],
@@ -108,9 +109,13 @@ const NOTES=[
 const FAQ='https://link.be10x.in/AI-Tools-Workshop-Post-WS-FAQs';
 const HEAD=['Name','CountryCode','Phone','AllowBroadcast','AllowSMS','certlink','notes','datetime','brname','faqdoc','bonus'];
 
-let batches=[],uid=0,merged=[],parts=[],dropNotes=false;
+/* notes link -> extra "link" column value */
+const LINKS={
+ 'https://link.be10x.in/AI-Tools-Claude-Side-Income-Notes':'https://link.be10x.in/wisprflow-ref',
+ 'https://link.be10x.in/be10X-AI-Tools-Claude-Side-Income-Notes':'https://link.be10x.in/wispr-ref'};
+let batches=[],uid=0,merged=[],parts=[],dropNotes=false,hasLink=false;
 const NOTES_IDX=HEAD.indexOf('notes');
-const curHead=()=>dropNotes?HEAD.filter((_,i)=>i!=NOTES_IDX):HEAD;
+const curHead=()=>{const h=dropNotes?HEAD.filter((_,i)=>i!=NOTES_IDX):HEAD.slice();if(hasLink)h.push('link');return h};
 const newBatch=()=>({id:++uid,cert:CERTS[0][1],notes:NOTES[0][1],reports:[],ready:0});
 
 function parseCSV(t){
@@ -166,7 +171,7 @@ function parseReport(name,text){
 }
 
 const esc=v=>/[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;
-const rowOf=m=>{const r=['there','91',m.ph,'TRUE','TRUE',m.cert,m.notes,m.date,'be10X',FAQ,'special bonus worth Rs. 1799.'];if(dropNotes)r.splice(NOTES_IDX,1);return r};
+const rowOf=m=>{const r=['there','91',m.ph,'TRUE','TRUE',m.cert,m.notes,m.date,'be10X',FAQ,'special bonus worth Rs. 1799.'];if(dropNotes)r.splice(NOTES_IDX,1);if(hasLink)r.push(m.link||'');return r};
 const enc=new TextEncoder();
 const kb=b=>b>=1048576?(b/1048576).toFixed(2)+' MB':(b/1024).toFixed(0)+' KB';
 const msg=(t,e)=>{const m=$('msg');m.textContent=t;m.className=e?'err':''};
@@ -175,6 +180,7 @@ function recompute(){
   const min=+$('min').value||30,seen=new Set();merged=[];
   const active=batches.filter(b=>b.reports.length);
   dropNotes=active.length>0&&active.every(b=>b.notes==='');
+  hasLink=active.some(b=>LINKS[b.notes]);
   let people=0,short=0,nophone=0,dup=0,reps=0;
   for(const b of batches){
     b.ready=0;
@@ -186,7 +192,7 @@ function recompute(){
         if(!p.ph){nophone++;continue}
         if(seen.has(p.ph)){dup++;continue}
         seen.add(p.ph);b.ready++;
-        merged.push({ph:p.ph,date:rp.date,cert:b.cert,notes:b.notes});
+        merged.push({ph:p.ph,date:rp.date,cert:b.cert,notes:b.notes,link:LINKS[b.notes]||''});
       }
     }
   }
