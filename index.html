@@ -176,6 +176,15 @@ const enc=new TextEncoder();
 const kb=b=>b>=1048576?(b/1048576).toFixed(2)+' MB':(b/1024).toFixed(0)+' KB';
 const msg=(t,e)=>{const m=$('msg');m.textContent=t;m.className=e?'err':''};
 
+/* output name: {BatchDate}+{notes}; several batches joined with "_" */
+function fileBase(active){
+  const nm=active.map(b=>{
+    const dates=[...new Set(b.reports.map(r=>r.date))].join(' & ');
+    const lab=(NOTES.find(n=>n[1]===b.notes)||[''])[0];
+    return b.notes===''?dates:dates+'+'+lab;
+  }).join('_');
+  return (nm||'certificate').replace(/[\\/:*?"<>|]/g,'-').slice(0,150);
+}
 function recompute(){
   const min=+$('min').value||30,seen=new Set();merged=[];
   const active=batches.filter(b=>b.reports.length);
@@ -206,7 +215,8 @@ function recompute(){
     cur.push(ln);bytes+=b;
   }
   flush();
-  parts.forEach((p,i)=>p.name=parts.length>1?`certificate_part${i+1}.csv`:'certificate.csv');
+  const base=fileBase(active);
+  parts.forEach((p,i)=>p.name=parts.length>1?`${base}_part${i+1}.csv`:`${base}.csv`);
   return {people,short,nophone,dup,reps};
 }
 
