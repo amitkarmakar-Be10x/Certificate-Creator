@@ -22,6 +22,13 @@ h1{font-size:clamp(32px,7vw,60px);letter-spacing:.14em;margin:0 0 6px;font-weigh
 label{display:block;font-size:14px;color:var(--steel);margin:0 0 6px;letter-spacing:.04em}
 select,input[type=number]{width:100%;padding:10px;background:#08110e;color:var(--txt);border:1px solid rgba(45,255,156,.35);border-radius:2px;font:inherit;font-size:15px}
 select:focus,input:focus,button:focus-visible,.drop:focus-visible{outline:2px solid var(--rune);outline-offset:2px}
+.cb{position:relative}
+.cbl{position:absolute;left:0;right:0;top:calc(100% + 2px);max-height:260px;overflow-y:auto;background:#08110e;border:1px solid rgba(45,255,156,.55);z-index:30;box-shadow:0 8px 24px rgba(0,0,0,.7)}
+.cbl div{padding:9px 10px;cursor:pointer;font-size:15px}
+.cbl div.act{background:rgba(45,255,156,.2)}
+.cbl div.sel{color:var(--rune)}
+.cbl div.none{color:var(--steel);cursor:default;font-style:italic}
+.cbi{width:100%;padding:10px;background:#08110e;color:var(--txt);border:1px solid rgba(45,255,156,.35);border-radius:2px;font:inherit;font-size:15px}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
 .st{border-left:2px solid var(--rune2);padding:4px 10px}
 .st span{display:block;font-size:26px;color:var(--rune)}
@@ -226,12 +233,49 @@ function mkOpts(sel,list,val){
   list.forEach(([l,v])=>{const o=document.createElement('option');o.value=v;o.textContent=l;sel.appendChild(o)});
   sel.value=val;
 }
+/* searchable dropdown for notes: type to filter, click / arrows+Enter to choose */
+function notesCombo(el,b){
+  const inp=el.querySelector('.cbi'),list=el.querySelector('.cbl');
+  let items=[],act=-1;
+  const labelOf=u=>(NOTES.find(n=>n[1]===u)||[''])[0];
+  const close=()=>{list.classList.add('hide');inp.setAttribute('aria-expanded','false');inp.value=labelOf(b.notes);act=-1};
+  const choose=n=>{b.notes=n[1];inp.value=n[0];list.classList.add('hide');inp.setAttribute('aria-expanded','false');inp.blur();update()};
+  function open(q){
+    q=(q||'').trim().toLowerCase();
+    items=q?NOTES.filter(n=>n[0].toLowerCase().includes(q)):NOTES.slice();
+    list.innerHTML='';act=-1;
+    if(!items.length){const d=document.createElement('div');d.className='none';d.textContent='No notes match';list.appendChild(d)}
+    items.forEach((n,i)=>{
+      const d=document.createElement('div');d.textContent=n[0];d.setAttribute('role','option');
+      if(n[1]===b.notes)d.classList.add('sel');
+      d.onmousedown=e=>{e.preventDefault();choose(n)};
+      d.onmouseenter=()=>{act=i;mark()};
+      list.appendChild(d);
+    });
+    list.classList.remove('hide');inp.setAttribute('aria-expanded','true');
+  }
+  function mark(){
+    [...list.children].forEach((c,i)=>c.classList.toggle('act',i==act));
+    const a=list.children[act];if(a&&a.scrollIntoView)a.scrollIntoView({block:'nearest'});
+  }
+  inp.value=labelOf(b.notes);
+  inp.onfocus=()=>{inp.select();open('')};
+  inp.onclick=()=>{if(list.classList.contains('hide'))open('')};
+  inp.oninput=()=>open(inp.value);
+  inp.onblur=()=>close();
+  inp.onkeydown=e=>{
+    if(e.key=='ArrowDown'){e.preventDefault();if(list.classList.contains('hide'))open('');act=Math.min(items.length-1,act+1);mark()}
+    else if(e.key=='ArrowUp'){e.preventDefault();act=Math.max(0,act-1);mark()}
+    else if(e.key=='Enter'){e.preventDefault();const n=items[act>=0?act:0];if(n&&!list.classList.contains('hide'))choose(n)}
+    else if(e.key=='Escape'){inp.blur()}
+  };
+}
 function renderBatches(){
   const box=$('batches');box.innerHTML='';
   batches.forEach((b,bi)=>{
     const el=document.createElement('div');el.className='panel';
     el.innerHTML=`<div class="bh"><b>Batch ${bi+1}</b><span class="meta" data-bm></span><span class="sp"></span></div>
-     <div class="row"><div><label>Notes link</label><select data-n></select></div>
+     <div class="row"><div><label>Notes link</label><div class="cb"><input type="text" class="cbi" data-n role="combobox" aria-expanded="false" autocomplete="off" spellcheck="false" placeholder="Search or select notes..."><div class="cbl hide" role="listbox"></div></div></div>
      <div><label>Certificate link</label><select data-c></select></div></div>
      <div class="drop" tabindex="0" role="button" style="margin-top:14px"><b>Drop Zoom reports for this notes link</b><small>Select several files at once, or add more later</small></div>
      <input type="file" accept=".csv,text/csv" multiple class="hide">
@@ -241,11 +285,12 @@ function renderBatches(){
       rm.onclick=()=>{batches.splice(bi,1);renderBatches();update()};
       el.querySelector('.bh').appendChild(rm);
     }
-    const sn=el.querySelector('[data-n]'),sc=el.querySelector('[data-c]');
-    mkOpts(sn,NOTES,b.notes);mkOpts(sc,CERTS,b.cert);
-    sn.onchange=()=>{b.notes=sn.value;update()};
+    const sc=el.querySelector('[data-c]');
+    mkOpts(sc,CERTS,b.cert);
     sc.onchange=()=>{b.cert=sc.value;update()};
-    const dz=el.querySelector('.drop'),inp=el.querySelector('input');
+    notesCombo(el,b);
+    sc.onchange=()=>{b.cert=sc.value;update()};
+    const dz=el.querySelector('.drop'),inp=el.querySelector('input[type=file]');
     dz.onclick=()=>inp.click();
     dz.onkeydown=e=>{if(e.key=='Enter'||e.key==' '){e.preventDefault();inp.click()}};
     inp.onchange=e=>{load(b,e.target.files);e.target.value=''};
