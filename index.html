@@ -120,7 +120,8 @@ const HEAD=['Name','CountryCode','Phone','AllowBroadcast','AllowSMS','certlink',
 /* notes link -> extra "link" column value */
 const LINKS={
  'https://link.be10x.in/AI-Tools-Claude-Side-Income-Notes':'https://link.be10x.in/wisprflow-ref',
- 'https://link.be10x.in/be10X-AI-Tools-Claude-Side-Income-Notes':'https://link.be10x.in/wispr-ref'};
+ 'https://link.be10x.in/be10X-AI-Tools-Claude-Side-Income-Notes':'https://link.be10x.in/wispr-ref',
+ 'https://link.be10x.in/Build-Side-Income-Workshop-Notes':'https://link.be10x.in/wisprflow4'};
 let batches=[],uid=0,merged=[],parts=[],dropNotes=false,hasLink=false;
 const NOTES_IDX=HEAD.indexOf('notes');
 const curHead=()=>{const h=dropNotes?HEAD.filter((_,i)=>i!=NOTES_IDX):HEAD.slice();if(hasLink)h.push('link');return h};
